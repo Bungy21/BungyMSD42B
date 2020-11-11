@@ -8,15 +8,24 @@ public class Player : MonoBehaviour
     [SerializeField] float moveSpeed = 10f; // SerialiazeField makes the variable editable from Unity Editor
     [SerializeField] GameObject laserPrefab;
     [SerializeField] float laserSpeed = 15f;
+    [SerializeField] float laserFiringTime = 0.2f;
 
     float xMin, xMax, yMin, yMax;
 
     float padding = 0.5f;
 
+    bool coroutineStarted = false;
+
+    Coroutine printCoroutine;
+
+    public Coroutine FireCoroutine { get; private set; }
+
     // Start is called before the first frame update
     void Start()
     {
         SetUpMoveBoundaries();
+
+        //printCoroutine = StartCoroutine(PrintAndWait());
     }
 
     // Update is called once per frame
@@ -26,6 +35,26 @@ public class Player : MonoBehaviour
         Fire();
     }
 
+    //coroutine example
+    //private IEnumerator PrintAndWait()
+    //{
+    //    print("Message 1");
+    //    yield return new WaitForSeconds(10);
+    //    print("Message 2 after 10 seconds");
+    //}
+    
+    //fires lasers continuously every firitingTime seconds
+    private IEnumerator FireContinuously()
+    {
+        while (true) //while coroutine is running
+        {
+            GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
+            //give the laser a velocity in the y-axis
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+
+            yield return new WaitForSeconds(laserFiringTime);
+        }
+    }
     private void SetUpMoveBoundaries()
     {   //setup the boundaries of movement according to the camera
         Camera gameCamera = Camera.main;
@@ -45,11 +74,25 @@ public class Player : MonoBehaviour
     {
         //if fire ispressed spawn a laser at the Player ship position
         if(Input.GetButtonDown("Fire1"))
-        {
-            GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
-            //give the laser a velocity in the y-axis
-            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, laserSpeed);
+        {  
+            //if coroutine has not started
+            // to avoid starting more than 1 same coroutine
+            if (!coroutineStarted) //if coroutineStarted == false
+            {
+                //start coroutine
+                FireCoroutine = StartCoroutine(FireContinuously());
+                //set coroutineStarted = true
+                coroutineStarted = true;
+            }
+
         }
+
+        if(Input.GetButtonUp("Fire1"))
+        { 
+            StopCoroutine(FireCoroutine);
+            coroutineStarted = false;
+        }
+
     }
 
     private void Move()
