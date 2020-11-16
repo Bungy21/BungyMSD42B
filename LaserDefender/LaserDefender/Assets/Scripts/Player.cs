@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
             }
 
         }
-
+        //when button is released
         if(Input.GetButtonUp("Fire1"))
         { 
             StopCoroutine(FireCoroutine);
