@@ -8,7 +8,10 @@ public class EnemyPathing : MonoBehaviour
     [SerializeField] List<Transform> waypointsList;
 
     [SerializeField] float enemyMoveSpeed = 2f;
-    
+
+
+    [SerializeField] WaveConfig waveConfig;
+
     //shows the next waypoint 
     int waypointIndex = 0;
 
@@ -17,12 +20,16 @@ public class EnemyPathing : MonoBehaviour
     {
         //set the position of the enemy ship to the 1st waypoint
         transform.position = waypointsList[0].transform.position;
+
+        waypointsList = waveConfig.GetWaypointsList();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         EnemyMove();
+
     }
 
     private void EnemyMove()
