@@ -18,10 +18,10 @@ public class EnemyPathing : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        waypointsList = waveConfig.GetWaypointsList();
+
         //set the position of the enemy ship to the 1st waypoint
         transform.position = waypointsList[0].transform.position;
-
-        waypointsList = waveConfig.GetWaypointsList();
 
     }
 
