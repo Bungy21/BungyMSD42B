@@ -59,7 +59,7 @@ public class WaveConfig : ScriptableObject
         return numberOfEnemies;
     }
 
-    public float GetenemyMoveSpeed()
+    public float GetEnemyMoveSpeed()
     {
         return enemyMoveSpeed;
     }
