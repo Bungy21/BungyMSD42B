@@ -35,7 +35,7 @@ public class WaveConfig : ScriptableObject
             waveWaypoints.Add(child);
 
          /* waveWaypoints:
-          * 
+          * i
           * [0]: waypoint0
           * [1]: waypoint1
           * [2]: waypoint2

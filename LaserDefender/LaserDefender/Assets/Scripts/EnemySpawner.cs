@@ -40,7 +40,7 @@ public class EnemySpawner : MonoBehaviour
             //at the position of the first waypoint in Path
             var newEnemy = Instantiate(
                            waveToSpawn.GetEnemyPrefab(),
-                           waveToSpawn.GetWaypointsList()[0].transform.position,
+                           waveToSpawn.GetWaypointsList()[startingWave].transform.position,
                            Quaternion.identity) as GameObject;
 
             //the wave will be selected from her and the enemy applied to it
