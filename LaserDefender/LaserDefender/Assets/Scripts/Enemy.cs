@@ -20,6 +20,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] AudioClip enemyShootSound;
     [SerializeField] [Range(0, 1)] float enemyShootSoundVolume = 0.3f;
 
+    [SerializeField] GameObject deathEffects;
+    [SerializeField] float explotionDuration = 1f;
+
     // Reduce enemy health whenever enemy collides with a gameObject that has a DamageDealer component
     private void OnTriggerEnter2D(Collider2D otherObject)
     {
@@ -45,6 +48,9 @@ public class Enemy : MonoBehaviour
     {
         Destroy(gameObject);
         AudioSource.PlayClipAtPoint(enemyDeathSound, Camera.main.transform.position, enemyDeathSoundVolume);
+        //create an explosion particle
+        GameObject explosion = Instantiate(deathEffects, transform.position, Quaternion.identity);
+        Destroy(explosion, explotionDuration);
     }
 
     // Start is called before the first frame update
